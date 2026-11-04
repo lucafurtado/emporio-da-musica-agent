@@ -251,6 +251,9 @@ be able to explain any part of the code in upcoming technical interviews.
 
 ## Example conversations
 
-See the [`examples/`](examples/) folder — 4 real conversations with the agent, covering: product
-search by category/price, general store information, a specific product's price, and the return
-policy applied to a real order.
+See the [`examples/`](examples/) folder — 5 real conversations with the agent, covering: product
+search by category/price, general store information, a specific product's price, and two distinct
+return-policy scenarios applied to real orders: a manufacturing-defect exchange (30-day window) and
+a buyer's-remorse / right-of-withdrawal return on an online purchase (7-day window). The store's
+policy manual treats these as separate rules, and the agent correctly distinguishes between them
+instead of applying one blanket "return policy."
