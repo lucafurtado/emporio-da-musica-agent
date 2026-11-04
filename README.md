@@ -142,6 +142,26 @@ deciding which tool to call, with which arguments, and drafting a short reply in
 justify a bigger model; Haiku delivers this with much lower latency and cost. The model is
 configurable via `ANTHROPIC_MODEL` in `.env`, in case it needs to change without touching code.
 
+### Prompting strategy
+
+The system prompt has three layers, in a deliberate order:
+
+1. **Persona** (who Rico is, tone): short, informal-but-professional, chat-length replies —
+   steers *how* the agent talks, not what it's allowed to do.
+2. **Seven numbered hard rules** ("REGRAS QUE VOCÊ NUNCA PODE QUEBRAR"): never invent
+   price/stock/order data, confirm identity before revealing order details, the store's
+   catalog scope, when to refuse, when to escalate to a human, and how to present promotions.
+   These are phrased as explicit, enumerable constraints rather than a vague "be helpful and
+   accurate" — a numbered list is something the model can check itself against, and something a
+   reviewer can audit rule-by-rule.
+3. **The full policy manual text**, appended last, as the single source of truth for anything
+   the seven rules point to but don't spell out (exact deadlines, fees, exceptions).
+
+I put the hard rules *before* the policy text on purpose: the rules are short, behavioral, and
+need to dominate the model's attention regardless of where in a long policy document the
+relevant clause sits. If a future version needed many more rules, I'd watch for prompt bloat and
+consider moving some of this logic into tool-level validation instead of prose.
+
 ### Tool-use loop: manual instead of the SDK's Tool Runner
 
 The Anthropic SDK offers a "Tool Runner" that automates the tool-call loop, but it's a **beta**
